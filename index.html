@@ -10,44 +10,304 @@
     <!-- Babel para compilar React en el navegador -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Nunito', 'sans-serif'],
-            },
-            colors: {
-              spanish: {
-                light: '#e0f2fe',
-                DEFAULT: '#0ea5e9',
-                dark: '#0369a1',
-              }
-            }
-          }
+    <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Un semestre loco en SPAN1001</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            /* Colorful gradient background */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ff758c 100%);
+            background-attachment: fixed;
         }
-      }
-    </script>
-    
-    <!-- Mapa de importaciones usando CDNs públicos (esm.sh) -->
-    <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@18.2.0",
-    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
-    "lucide-react": "https://esm.sh/lucide-react@0.263.1",
-    "canvas-confetti": "https://esm.sh/canvas-confetti@1.6.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/"
-  }
-}
-</script>
-  </head>
-  <body class="bg-slate-50 text-slate-800 antialiased">
-    <div id="root"></div>
+        input {
+            border-bottom: 2px solid #cbd5e1;
+            transition: all 0.3s ease;
+            text-align: center;
+            color: #1e293b;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.5); /* Slightly visible background for inputs */
+        }
+        input:focus {
+            outline: none;
+            border-bottom-color: #3b82f6;
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+        input.correct {
+            border-bottom-color: #22c55e;
+            color: #15803d;
+            background-color: rgba(34, 197, 94, 0.1);
+        }
+        input.incorrect {
+            border-bottom-color: #ef4444;
+            color: #b91c1c;
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+        /* Shake animation for errors */
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+        .song-line {
+            line-height: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-start justify-center py-10 px-4">
 
-    <!-- Cargamos los archivos como módulos babel -->
-    <script type="text/babel" data-type="module" src="./App.tsx"></script>
-    <script type="text/babel" data-type="module" src="./index.tsx"></script>
-  </body>
+    <div class="max-w-3xl w-full bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl overflow-hidden">
+        <!-- Header -->
+        <div class="bg-indigo-600 p-6 text-white text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full opacity-10">
+                <svg viewBox="0 0 100 100" preserveAspectRatio="none" class="w-full h-full">
+                    <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white" />
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold mb-2">🎵 Un semestre loco en SPAN1001 🎵</h1>
+            <p class="text-indigo-100">Completa la canción con las palabras que faltan.</p>
+            <p class="text-sm mt-2 opacity-80">Pista: Mira los emojis o los verbos en infinitivo.</p>
+        </div>
+
+        <!-- Content -->
+        <div class="p-8 space-y-8 text-lg text-gray-800">
+            
+            <!-- Verse 1 -->
+            <div class="song-section">
+                <h3 class="text-indigo-600 font-bold text-sm uppercase tracking-wide mb-2">Verso 1</h3>
+                <p class="song-line">
+                    ¡Hola a todos! Estamos en Hong Kong universidad, aquí el español es nuestra nueva 
+                    <input type="text" class="w-24 gap-input" data-answer="ciudad" placeholder="🏙️">.
+                </p>
+                <p class="song-line">
+                    La Jefa 
+                    <input type="text" class="w-24 gap-input" data-answer="Rocío" placeholder="👩‍🏫"> 
+                    es la mejor, 
+                    <input type="text" class="w-24 gap-input" data-answer="Martín" placeholder="👨‍🏫"> 
+                    dibuja con mucha pasión,
+                </p>
+                <p class="song-line">
+                    <input type="text" class="w-24 gap-input" data-answer="Pablo" placeholder="👨‍🏫"> 
+                    coordina, ¡qué honor! y 
+                    <input type="text" class="w-24 gap-input" data-answer="Deya" placeholder="👩‍🏫"> 
+                    es genial en la lección.
+                </p>
+            </div>
+
+            <!-- Verse 2 -->
+            <div class="song-section">
+                <h3 class="text-indigo-600 font-bold text-sm uppercase tracking-wide mb-2">Verso 2</h3>
+                <p class="song-line">
+                    Por la mañana, yo 
+                    <input type="text" class="w-32 gap-input" data-answer="me levanto" placeholder="(levantarse)"> 
+                    muy temprano, veo los videos de 
+                    <input type="text" class="w-24 gap-input" data-answer="Ignacio" placeholder="👨‍🏫">,
+                </p>
+                <p class="song-line">
+                    es como mi 
+                    <input type="text" class="w-24 gap-input" data-answer="hermano" placeholder="👦">. 
+                    Hoy es 
+                    <input type="text" class="w-24 gap-input" data-answer="viernes" placeholder="📅"> 
+                    y yo 
+                    <input type="text" class="w-24 gap-input" data-answer="quiero" placeholder="(querer)"> 
+                </p>
+                <p class="song-line">
+                    ir a Lan Kwai Fong a bailar y reír.
+                </p>
+                <p class="song-line">
+                    Pero 
+                    <input type="text" class="w-24 gap-input" data-answer="tengo" placeholder="(tener)"> 
+                    un problema: ¡Tengo una tarea de audio y más 
+                    <input type="text" class="w-28 gap-input" data-answer="ejercicios" placeholder="📝"> 
+                    un montón!
+                </p>
+            </div>
+
+            <!-- Chorus -->
+            <div class="song-section bg-yellow-50 p-4 rounded-xl border border-yellow-200 shadow-sm">
+                <h3 class="text-yellow-700 font-bold text-sm uppercase tracking-wide mb-2">Coro</h3>
+                <p class="song-line">
+                    ¡Ay, madre mía! La ciudad es 
+                    <input type="text" class="w-20 gap-input" data-answer="fría" placeholder="❄️"> 
+                    pero en mi clase hay calor y 
+                    <input type="text" class="w-20 gap-input" data-answer="amor" placeholder="❤️">.
+                </p>
+                <p class="song-line">
+                    A mí me gusta mucho el español, y mis 
+                    <input type="text" class="w-24 gap-input" data-answer="amigos" placeholder="👥"> 
+                    de clase son lo mejor!
+                </p>
+            </div>
+
+            <!-- Verse 3 -->
+            <div class="song-section">
+                <h3 class="text-indigo-600 font-bold text-sm uppercase tracking-wide mb-2">Verso 3</h3>
+                <p class="song-line">
+                    Nosotros vamos al Moodle 
+                    <input type="text" class="w-24 gap-input" data-answer="General" placeholder="🌍">, 
+                    buscar la información es fundamental.
+                </p>
+                <p class="song-line">
+                    Si hay dudas, al Moodle de Grupo 
+                    <input type="text" class="w-24 gap-input" data-answer="vas" placeholder="(ir, tú)"> 
+                    es lo más.
+                </p>
+                <p class="song-line">
+                    La clase de 
+                    <input type="text" class="w-32 gap-input" data-answer="conversación" placeholder="🗣️"> 
+                    es genial, hablamos con los compañeros y problemas no 
+                    <input type="text" class="w-20 gap-input" data-answer="hay" placeholder="(haber)">.
+                </p>
+            </div>
+
+            <!-- Bridge -->
+            <div class="song-section">
+                <h3 class="text-indigo-600 font-bold text-sm uppercase tracking-wide mb-2">Puente (Bridge)</h3>
+                <p class="song-line">
+                    ¡Atención, chicos! Pronto la 
+                    <input type="text" class="w-24 gap-input" data-answer="Prueba" placeholder="📄"> 
+                    <input type="text" class="w-12 gap-input" data-answer="de" placeholder="🔗"> 
+                    <input type="text" class="w-24 gap-input" data-answer="Progreso" placeholder="📈"> 
+                    2 ya viene.
+                </p>
+                <p class="song-line">
+                    Nosotros tenemos que estudiar un montón, los verbos, el vocabulario y la lección.
+                </p>
+            </div>
+
+            <!-- Outro -->
+            <div class="song-section">
+                <h3 class="text-indigo-600 font-bold text-sm uppercase tracking-wide mb-2">Outro</h3>
+                <p class="song-line">
+                    Pero hoy en la Hong Kong estamos contentos, ¡Un semestre 
+                    <input type="text" class="w-24 gap-input" data-answer="loco" placeholder="🤪">, 
+                    al 
+                    <input type="text" class="w-24 gap-input" data-answer="mil" placeholder="1000"> 
+                    por ciento!
+                </p>
+                <p class="song-line font-bold text-indigo-600 mt-4">
+                    ¡Hasta el próximo semestre!!!!!
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Footer / Controls -->
+        <div class="bg-white/80 backdrop-blur p-6 border-t flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="text-gray-700 font-medium">
+                Puntuación: <span id="score" class="font-bold text-indigo-600">0</span> / <span id="total">0</span>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="resetExercise()" class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium transition-colors">
+                    Reiniciar
+                </button>
+                <button onclick="checkAnswers()" class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
+                    Comprobar (Check)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Celebration Modal -->
+    <div id="modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50 backdrop-blur-sm">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm mx-4 animate-bounce-in transform scale-100 transition-transform">
+            <div class="text-6xl mb-4">🎉</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">¡Felicidades!</h2>
+            <p class="text-gray-600 mb-6">Has completado la canción correctamente.</p>
+            <button onclick="closeModal()" class="w-full py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-bold shadow-md">
+                Cerrar
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('.gap-input');
+        const scoreDisplay = document.getElementById('score');
+        const totalDisplay = document.getElementById('total');
+        const modal = document.getElementById('modal');
+
+        // Set total score
+        totalDisplay.innerText = inputs.length;
+
+        function checkAnswers() {
+            let correctCount = 0;
+
+            inputs.forEach(input => {
+                const userAnswer = input.value.trim().toLowerCase();
+                const correctAnswer = input.dataset.answer.toLowerCase();
+
+                // Remove previous styles
+                input.classList.remove('correct', 'incorrect', 'shake');
+
+                if (userAnswer === correctAnswer) {
+                    input.classList.add('correct');
+                    correctCount++;
+                } else {
+                    input.classList.add('incorrect');
+                    // Trigger reflow for animation restart
+                    void input.offsetWidth; 
+                    input.classList.add('shake');
+                }
+            });
+
+            scoreDisplay.innerText = correctCount;
+
+            if (correctCount === inputs.length) {
+                confettiEffect();
+                setTimeout(() => {
+                    modal.classList.remove('hidden');
+                }, 500);
+            }
+        }
+
+        function resetExercise() {
+            inputs.forEach(input => {
+                input.value = '';
+                input.classList.remove('correct', 'incorrect', 'shake');
+            });
+            scoreDisplay.innerText = '0';
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+        }
+
+        // Simple confetti effect for celebration
+        function confettiEffect() {
+            const colors = ['#667eea', '#764ba2', '#ff758c', '#fbbf24'];
+            for(let i=0; i<60; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-10px';
+                confetti.style.width = '12px';
+                confetti.style.height = '12px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.borderRadius = '50%';
+                confetti.style.transition = 'top 2.5s ease-in, transform 2.5s ease-in';
+                confetti.style.zIndex = '100';
+                document.body.appendChild(confetti);
+
+                setTimeout(() => {
+                    confetti.style.top = '110vh';
+                    confetti.style.transform = `translateX(${Math.random() * 200 - 100}px) rotate(${Math.random() * 360}deg)`;
+                }, 50);
+
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3000);
+            }
+        }
+    </script>
+</body>
 </html>
