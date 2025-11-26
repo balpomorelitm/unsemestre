@@ -1,17 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The One Semester of Spanish Spanish Love Song</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Babel para compilar React en el navegador -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <!DOCTYPE html>
-<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -207,6 +195,13 @@
             <div class="text-gray-700 font-medium">
                 Puntuación: <span id="score" class="font-bold text-indigo-600">0</span> / <span id="total">0</span>
             </div>
+
+            <!-- Accent toggle -->
+            <label class="flex items-center space-x-2 text-gray-700 font-medium cursor-pointer hover:bg-gray-100 px-3 py-1 rounded transition-colors select-none">
+                <input type="checkbox" id="ignoreAccents" class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 border-gray-300">
+                <span>Ignorar acentos</span>
+            </label>
+
             <div class="flex gap-2">
                 <button onclick="resetExercise()" class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium transition-colors">
                     Reiniciar
@@ -235,16 +230,29 @@
         const scoreDisplay = document.getElementById('score');
         const totalDisplay = document.getElementById('total');
         const modal = document.getElementById('modal');
+        const ignoreAccentsCheckbox = document.getElementById('ignoreAccents');
 
         // Set total score
         totalDisplay.innerText = inputs.length;
 
+        // Helper function to remove accents
+        function normalizeString(str) {
+            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+
         function checkAnswers() {
             let correctCount = 0;
+            const shouldIgnoreAccents = ignoreAccentsCheckbox.checked;
 
             inputs.forEach(input => {
-                const userAnswer = input.value.trim().toLowerCase();
-                const correctAnswer = input.dataset.answer.toLowerCase();
+                let userAnswer = input.value.trim().toLowerCase();
+                let correctAnswer = input.dataset.answer.toLowerCase();
+
+                // If ignore accents is checked, normalize both strings
+                if (shouldIgnoreAccents) {
+                    userAnswer = normalizeString(userAnswer);
+                    correctAnswer = normalizeString(correctAnswer);
+                }
 
                 // Remove previous styles
                 input.classList.remove('correct', 'incorrect', 'shake');
